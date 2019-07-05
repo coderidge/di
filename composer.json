@@ -34,8 +34,10 @@
         "twig/twig": "^1.0||^2.0"
     },
     "require-dev": {
+        "phpspec/phpspec": "^5.1",
         "phpunit/phpunit": "^7",
         "sensio/generator-bundle": "^3.0",
+        "squizlabs/php_codesniffer": "^3.4",
         "symfony/phpunit-bridge": "^3.0"
     },
     "scripts": {
@@ -52,10 +54,13 @@
         ],
         "post-update-cmd": [
             "@symfony-scripts"
-        ]
+        ],
+        "phpcs": "bin/phpcs -p --standard=PSR2 --ignore=vendor ./src",
+        "phpcbf": "bin/phpcbf -p --standard=PSR2 --ignore=vendor ./src"
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "bin-dir": "bin"
     },
     "extra": {
         "symfony-app-dir": "app",

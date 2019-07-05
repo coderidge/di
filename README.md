@@ -8,7 +8,7 @@ Though I know latest versions is 4.2 I have recent experience in 3.4 so in essen
 As mentioned in Controller, I have created a route localhost:8000/report/{merchantid} 
 as I could not get on with using namespaces to work outside the framework.
 
-* run composer update
+* run composer install
 
 # Project location
 

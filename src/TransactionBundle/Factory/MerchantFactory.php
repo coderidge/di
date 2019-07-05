@@ -12,18 +12,10 @@ use TransactionBundle\Model\Merchant;
  * @param $id integer
  */
 
-class MerchantFactory {
-
-private $currencyConverter;
-private $transactions;
-
-
-public function getMerchantForId(int $id) {
-
-    $this->currencyConverter = new CurrencyConverter();
-    $this->transactions = new TransactionTable();
-
-    return new Merchant($id, $this->currencyConverter, $this->transactions);
-
+class MerchantFactory
+{
+    public function getMerchantForId()
+    {
+        return new Merchant(new CurrencyConverter(), new TransactionTable());
     }
 }

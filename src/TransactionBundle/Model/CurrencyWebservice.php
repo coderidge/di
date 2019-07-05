@@ -1,5 +1,6 @@
 <?php
 namespace TransactionBundle\Model;
+
 /**
  * Class Currency WebService
  *
@@ -11,9 +12,9 @@ namespace TransactionBundle\Model;
  */
 class CurrencyWebservice
 {
-    CONST USD = '1.5';
-    CONST EURO = '2';
-    CONST GBP = '1';
+    const USD = '1.5';
+    const EURO = '2';
+    const GBP = '1';
 
     private $_currency;
 
@@ -21,7 +22,6 @@ class CurrencyWebservice
     {
 
         try {
-
             if (!$currency) {
                 return 'currency not entered';
             }
@@ -37,9 +37,8 @@ class CurrencyWebservice
             } else {
                 return 'currency not found';
             }
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return $e;
         }
-
     }
 }

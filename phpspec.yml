@@ -1,0 +1,11 @@
+---
+formatter.name: pretty
+suites:
+  default:
+    spec_prefix: spec
+    namespace: TransactionBundle
+    psr4_prefix: TransactionBundle
+    spec_path: "%paths.config%/tests"
+    src_path: "%paths.config%/src"
+    composer_suite_detection: true
+...
