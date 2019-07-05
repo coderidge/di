@@ -9,15 +9,37 @@ namespace TransactionBundle\Model;
  */
 class Merchant
 {
+
+    const TRANSACTION_MECHANT_ID = 0;
+    const TRANSACTION_DATE = 1;
+    const TRANSACTION_VALUE = 2;
+    const TRANSACTION_CURRENCY = 'GBP';
+
+    /**
+     * @var TransactionTable
+     */
     private $transactions;
+
+    /**
+     * @var CurrencyConverter
+     */
     private $currencyConverter;
 
+    /**
+     * Merchant constructor.
+     * @param CurrencyConverter $currencyConverter
+     * @param TransactionTable $transactions
+     */
     public function __construct(CurrencyConverter $currencyConverter, TransactionTable $transactions)
     {
         $this->transactions = $transactions;
         $this->currencyConverter = $currencyConverter;
     }
 
+    /**
+     * @param int $id
+     * @return array|\Exception|string
+     */
     public function getTransactions(int $id)
     {
         try {
@@ -40,17 +62,29 @@ class Merchant
             $conversion = [];
             // convert the currencies, create useful and nice multidimensional array
             foreach ($array as $transaction) {
-                //This part need to be fixed because it cannot be tested properly. Please look spec function test
+                /**
+                 * This part need to be fixed because it cannot be tested properly. Please look spec function test
+                 * My thought is this has to be moved into currencyConverter because if you can see here many constant properties are
+                 * I think it has to be like this:
+                 *
+                 * $this->currencyConverter->convert($transaction[Merchant::TRANSACTION_VALUE]);
+                 *
+                 * and all have to be moved to Currency Converter into a method:
+                 * number_format(preg_replace('/[^0-9-.]+/', '',$value), 2), mb_substr($value, 0, 1, 'UTF-8')
+                 *
+                 * Feel free to figure out your best solution
+                 */
                 $amount = $this->currencyConverter->convert(number_format(preg_replace('/[^0-9-.]+/', '',
-                    $transaction['2']), 2), mb_substr($transaction['2'], 0, 1, 'UTF-8'));
+                    $transaction[Merchant::TRANSACTION_VALUE]), 2),
+                    mb_substr($transaction[Merchant::TRANSACTION_VALUE], 0, 1, 'UTF-8'));
                 $conversion[] = [
-                    'merchantId' => $transaction[0],
+                    'merchantId' => $transaction[static::TRANSACTION_MECHANT_ID],
                     'amount' => $amount,
-                    'currency' => 'GBP',
-                    'date' => $transaction[1]
+                    'currency' => static::TRANSACTION_CURRENCY,
+                    'date' => $transaction[static::TRANSACTION_DATE]
                 ];
             }
-var_dump($conversion);
+
             return $conversion;
         } catch (\Exception $e) {
             return $e;
