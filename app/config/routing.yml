@@ -1,0 +1,5 @@
+transaction:
+    resource: "@TransactionBundle/Resources/config/routing.yml"
+    prefix:   /
+
+
