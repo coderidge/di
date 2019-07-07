@@ -5,6 +5,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use TransactionBundle\Factory\MerchantFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use TransactionBundle\Model\CurrencyConverter;
+use TransactionBundle\Model\Merchant;
+use TransactionBundle\Model\TransactionTable;
 
 /** NOTE - I've ended up using a controller and route with id, because of course can't run
  * the controller through command line.  I did try use for my models, factories in a report.php
@@ -20,24 +23,15 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ReportController extends Controller
 {
-    public $merchantId;
-
-    public function __construct(MerchantFactory $merchant)
-    {
-        $this->_merchant = $merchant;
-    }
-
     public function indexAction(Request $request)
     {
+        $merchantId = $request->get('merchid', null);
+        if ($merchantId === null) {
+            return 'no merchant id used';
+        }
 
-      if(empty($request->get('merchid'))) {
-          return 'no merchant id used';
-      }
+        $merchant = new Merchant(new CurrencyConverter(), new TransactionTable());
 
-      $merchant = $this->_merchant->getMerchantForId($request->get('merchid'));
-
-
-      return new JsonResponse($merchant->getTransactions());
-
+        return new JsonResponse($merchant->getTransactions($merchantId));
     }
 }

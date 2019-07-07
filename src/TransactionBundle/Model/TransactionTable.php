@@ -11,7 +11,8 @@ class TransactionTable
     public $_file;
     public $_data;
 
-    public function getData() {
+    public function getData()
+    {
 
         try {
             $file = fopen((__DIR__ . '/../Resources/doc/data.csv'), "r");
@@ -23,10 +24,8 @@ class TransactionTable
             fclose($file);
 
             return $arr;
-
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return $e;
         }
     }
-
 }
